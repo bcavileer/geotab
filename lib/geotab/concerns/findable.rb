@@ -37,9 +37,9 @@ module Geotab
             headers: { params: { typeName: geotab_reference_name, credentials: connection.credentials, search: formatted_conditions }}
           })
 
-          body = JSON.parse(response.body).to_ostruct_recursive
+          body = MultiJson.load(response.body).to_ostruct_recursive
 
-          if JSON.parse(response.body).has_key?("error")
+          if MultiJson.load(response.body).has_key?("error")
             if body.error.errors.first.message.start_with?("Incorrect MyGeotab login credentials")
               raise IncorrectCredentialsError, body.error.errors.first.message
             else

@@ -11,7 +11,7 @@ module Geotab
         verify_ssl: false,
         headers: { params: { userName: username, password: password, database: database }}
       })
-      result = JSON.parse(response.body)
+      result = MultiJson.load(response.body)
 
       if result.has_key?("error")
         raise IncorrectCredentialsError, result["error"]["errors"].first["message"]
